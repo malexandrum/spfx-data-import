@@ -1,0 +1,24 @@
+{
+  "$schema": "../../node_modules/@microsoft/sp-module-interfaces/lib/manifestSchemas/jsonSchemas/clientSideComponentManifestSchema.json",
+
+  "id": "f95da670-ad60-4b95-b110-bf6bdc38e491",
+  "alias": "SpFxDataImportCommandSet",
+  "componentType": "Extension",
+  "extensionType": "CommandSet",
+  "version": "1.0.0",
+  "manifestVersion": 2,
+  "safeWithCustomScriptDisabled": true,
+
+  "commands": [
+    {
+      "commandId": "COMMAND_IMPORT",
+      "title": "Import",
+      "iconImageUrl": "icons/request.png"
+    }
+    // {
+    //   "commandId": "COMMAND_2",
+    //   "title": "Command Two",
+    //   "iconImageUrl": "icons/cancel.png"
+    // }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "solution": {
+    "name": "spfx-data-import-client-side-solution",
+    "id": "0bd1ca2a-8ded-47c6-81f7-ad674d450da4",
+    "version": "1.0.0.0"
+  },
+  "paths": {
+    "zippedPackage": "solution/spfx-data-import.sppkg"
+  }
+}

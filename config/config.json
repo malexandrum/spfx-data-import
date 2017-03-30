@@ -1,0 +1,13 @@
+{
+  "entries": [
+    {
+      "entry": "./lib/extensions/spFxDataImport/SpFxDataImportCommandSet.js",
+      "manifest": "./src/extensions/spFxDataImport/SpFxDataImportCommandSet.manifest.json",
+      "outputPath": "./dist/sp-fx-data-import.bundle.js"
+    }
+  ],
+  "externals": {},
+  "localizedResources": {
+    "spFxDataImportStrings": "extensions/spFxDataImport/loc/{locale}.js"
+  }
+}
