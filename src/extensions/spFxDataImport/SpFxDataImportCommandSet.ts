@@ -9,8 +9,12 @@ import {
 import { Dialog, DialogType, DialogFooter } from 'office-ui-fabric-react/lib/Dialog';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
 import { ChoiceGroup } from 'office-ui-fabric-react/lib/ChoiceGroup';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 
 import * as strings from 'spFxDataImportStrings';
+
+import { ImportDialog } from '../../components/ImportDialog';
 
 /**
  * If your command set uses the ClientSideComponentProperties JSON input,
@@ -25,6 +29,7 @@ export interface ISpFxDataImportCommandSetProperties extends IBaseListViewComman
 const LOG_SOURCE: string = 'SpFxDataImportCommandSet';
 
 export default class SpFxDataImportCommandSet extends BaseListViewCommandSet {
+  state: any = { importOpen: false }
   @override
   public onInit(): Promise<void> {
     Log.info(LOG_SOURCE, 'Initialized SpFxDataImportCommandSet');
@@ -44,13 +49,28 @@ export default class SpFxDataImportCommandSet extends BaseListViewCommandSet {
         event.visible = false;
       }
     }
+
+    /** Render Import Dialog */
+    let placeHolder: Element = document.querySelector(".os-Files-extensionPlaceHolder");
+    // console.log('placeholder', placeHolder);
+    let element: React.ReactElement<any> = React.createElement(ImportDialog, { isOpened: this.state.importOpen });
+    ReactDOM.render(element, placeHolder);
+
+    /* Inject our React Fabric Dialog */
+    // console.log('ReactDOM version', ReactDOM.version);
+
+    // ReactDOM.render(
+    //   <ImportDialog />,
+    //   document.getElementsByClassName('LeftPane-bottomCell')[0]
+    // );
   }
 
   @override
   public onExecute(event: IListViewCommandSetExecuteEventParameters): void {
     switch (event.commandId) {
       case 'COMMAND_IMPORT':
-        alert(`Clicked ${strings.CommandImport}`);
+        // alert(`Clicked ${strings.CommandImport}`);
+        this.state.importOpen = true;
         break;
       case 'COMMAND_2':
         alert(`Clicked ${strings.Command2}`);
