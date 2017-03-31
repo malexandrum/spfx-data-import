@@ -67,11 +67,8 @@ export default class SpFxDataImportCommandSet extends BaseListViewCommandSet {
         // alert(`Clicked ${strings.CommandImport}`);
         /** Render Import Dialog */
         let placeHolder: Element = document.querySelector(".os-Files-extensionPlaceHolder");
-        console.log('placeholder', placeHolder);
         let element: React.ReactElement<IImportDialogProps> = React.createElement(ImportDialog, { isOpened: true }, null);
-        console.log('element: ', element);
         ReactDOM.render(element, placeHolder);
-        console.log('React rendered');
         break;
       case 'COMMAND_2':
         alert(`Clicked ${strings.Command2}`);

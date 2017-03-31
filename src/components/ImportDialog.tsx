@@ -30,11 +30,14 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
           onDismiss={() => this.setState({ isOpened: false })}
         >
           <div>List Settings<br />
-          <input type="file" name="listSettings" />
+            <input type="file" name="listSettings" onChange={this._handleSettings} />
           </div>
           <br />
           <div>List Data<br />
-          <input type="file" name="listData" /></div>
+            <input type="file" name="listData" /></div>
+          <br />
+          <br />
+          <div><label>Read List Settings:</label>{this.state.listSettings}</div>
           <DialogFooter>
             <Button
               buttonType={ButtonType.primary}
@@ -58,6 +61,23 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
       isOpened: true
     })
   }
+
+  private _handleSettings(event: any) {
+    console.log('files: ', event.target.files)
+    if (event.target.files.length == 0) { return }
+
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    debugger;
+    const self = this;
+    reader.onload = (e: Event) => {
+      self.setState({
+        listSettings: e.target["result"]
+      })
+    };
+    reader.readAsText(file);
+
+  }
   // shouldComponentUpdate() {
   //   alert('should component update');
   //   return true;
@@ -72,5 +92,6 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
 
 
 export interface IImportDialogProps {
-  isOpened: boolean
+  isOpened: boolean,
+  listSettings?: string
 }
