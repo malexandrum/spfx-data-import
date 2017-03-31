@@ -14,10 +14,12 @@ export class FieldsGrid extends React.Component<IPropsFieldsGrid, any> {
                 <div>
                     <table>
                         <thead>
-                            <td>Title</td>
-                            <td>Length</td>
-                            <td>TypeAsString</td>
-                            <td>Required</td>
+                            <tr>
+                                <td>Title</td>
+                                <td>Length</td>
+                                <td>TypeAsString</td>
+                                <td>Required</td>
+                            </tr>
                         </thead>
                         <tbody>
                             {this.props.fields.items.map((field) =>

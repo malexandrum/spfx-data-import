@@ -58,11 +58,11 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
             <input type="file" name="listData" onChange={(e) => this._handleData(e)} /></div>
           <br />
           <br />
-          <div><label>Read List Settings:</label>{this.state.listSettings}</div>
+          {/*<div><label>Read List Settings:</label>{this.state.listSettings}</div>
           <br />
           <br />
           <div><label>Read List Data:</label>{this.state.listData}</div>
-          <br />
+          <br />*/}
           
           <label>Fields Grid</label>
           <FieldsGrid fields={this.state.missing} />
@@ -75,7 +75,7 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
             <Button
               onClick={() => this.setState({ isOpened: false })}
             >Cancel</Button>
-            <Spinner type={SpinnerType.large} />
+            {/*<Spinner type={SpinnerType.large} />*/}
           </DialogFooter>
         </Dialog>
       </div >
