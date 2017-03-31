@@ -90,7 +90,7 @@ export class SPJSONDataParser
 
 
             // grab the list's items 
-            console.log(`${siteURL}/_api/web/lists(guid'${id}')/fields`);
+            // console.log(`${siteURL}/_api/web/lists(guid'${id}')/fields`);
             context.spHttpClient.get(`${siteURL}/_api/web/lists(guid'${id}')/fields?$select=Id,Title,Required,TypeAsString,MaxLength`,
             (<any>SPHttpClient.configurations.v1), {
                 headers: {

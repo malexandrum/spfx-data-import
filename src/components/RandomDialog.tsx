@@ -11,6 +11,14 @@ import {
   SpinnerType,
   SpinnerSize
 } from 'office-ui-fabric-react/lib/Spinner';
+import { Label } from 'office-ui-fabric-react/lib/Label';
+import { TextField } from 'office-ui-fabric-react/lib/TextField';
+import { autobind } from 'office-ui-fabric-react/lib/Utilities';
+
+
+import { SPHttpClient, SPHttpClientConfiguration, SPHttpClientResponse, ODataVersion, ISPHttpClientConfiguration, ISPHttpClientOptions } from '@microsoft/sp-http';
+import { ListViewCommandSetContext } from '@ms/sp-listview-extensibility';
+
 
 
 export class RandomDialog extends React.Component<IRandomDialogProps, any> {
@@ -22,16 +30,49 @@ export class RandomDialog extends React.Component<IRandomDialogProps, any> {
       isOpened: this.props.isOpened,
       busy: false
     };
+    this._getCurrentFields(this._importRandomData);
+    console.log('Fields loaded');
   }
 
-  public loadData() {
-    ParseData.loadData({settings: this.state.listSettings, data: this.state.listData}, this.props.listid, this.props.context, (missing) => {
-      debugger;
-      this.setState({ missing: missing });
-    });
+  // public loadData() {
+  //   ParseData.loadData({ settings: this.state.listSettings, data: this.state.listData }, this.props.listid, this.props.context, (missing) => {
+  //     debugger;
+  //     this.setState({ missing: missing });
+  //   });
+  // }
+
+  private _importRandomData() {
+    debugger;
   }
 
-  private _generateRandomData() {
+  private _getCurrentFields(callback: Function): void {
+    this.setState({ busy: true });
+    const ctx: ListViewCommandSetContext = this.props.context;
+    const siteUrl = this.props.context.pageContext.site.absoluteUrl;
+    const listId = this.props.context.pageContext.list.id.toString();
+    const fieldsUrl = siteUrl + `/_api/lists(guid'${listId}')/` + "fields?$filter=Hidden eq false and ReadOnlyField eq false and FieldTypeKind eq 2&$select=Id,InternalName";
+    const opts: ISPHttpClientOptions = {
+      headers: {
+        'Accept': 'application/json;odata=nometadata',
+        'Content-type': 'application/json;odata=verbose',
+        'odata-version': ''
+      }
+    };
+    //     const config: SPHttpClientConfiguration = {
+    // flags: 
+    //     };
+    const config: any = SPHttpClient.configurations.v1;
+
+
+    const p = ctx.spHttpClient.fetch(fieldsUrl, config, opts)
+      .then((response) => {
+        debugger;
+        this.setState({
+          fields: response,
+          busy: false
+        });
+        // callback(response);
+      });
 
   }
 
@@ -47,25 +88,29 @@ export class RandomDialog extends React.Component<IRandomDialogProps, any> {
           isBlocking={true}
           onDismiss={() => this.setState({ isOpened: false })}
         >
-          
+
           <br />
           {/*<div><label>Read List Settings:</label>{this.state.listSettings}</div>
           <br />
           <br />
           <div><label>Read List Data:</label>{this.state.listData}</div>
           <br />*/}
-          
-          <label>Fields Grid</label>
+
+          <TextField label='Number of rows to generate' placeholder='# of rows' ariaLabel='Please' onChanged={(e) => this._onNoRowsChanged(e)} />
+
+
+          {this.state.fields ? <Label>Fields to be populated with random data</Label> : ""}
           <FieldsGrid fields={this.state.missing} />
 
           <DialogFooter>
 
-                        <Spinner size={ SpinnerSize.medium } />
-                       
+            {this.state.busy ? <Spinner size={SpinnerSize.medium} /> : ""}
+
             <Button
+              disabled={!(this.state.fields && this.state.noRowsToGenerate > 0)}
               buttonType={ButtonType.primary}
-              onClick={() => this._generateRandomData()}
-            >Generate</Button>
+              onClick={() => this._importRandomData()}
+            >Import Random Data</Button>
             <Button
               onClick={() => this.setState({ isOpened: false })}
             >Cancel</Button>
@@ -82,40 +127,11 @@ export class RandomDialog extends React.Component<IRandomDialogProps, any> {
     })
   }
 
-  // componentWillUpdate() {
-  //   !this.state.missing && this.loadData();
-  // }
-
-  private _handleSettings(event: any) {
-
-    if (event.target.files.length == 0) { return }
-
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onload = (e: Event) => {
-      this.setState({
-        listSettings: e.target["result"]
-      });
-      this.loadData();
-      console.log('Settings loaded', new Date());
-    };
-    reader.readAsText(file);
-
-  }
-
-  private _handleData(event: any) {
-    if (event.target.files.length == 0) { return }
-
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onload = (e: Event) => {
-      this.setState({
-        listData: e.target["result"]
-      });
-      this.loadData();
-      console.log('Data loaded', new Date());
-    };
-    reader.readAsText(file);
+  @autobind
+  private _onNoRowsChanged(text: string) {
+    this.setState({
+      noRowsToGenerate: parseInt(text)
+    })
   }
 
 }
@@ -124,9 +140,6 @@ export class RandomDialog extends React.Component<IRandomDialogProps, any> {
 export interface IRandomDialogProps {
   isOpened: boolean,
   listid: string,
-  context: any,
-  busy?: boolean,
-  listSettings?: any,
-  listData?: any,
-  missing?: SPFieldDefinitionCollection
+  context: ListViewCommandSetContext,
+  busy?: boolean
 }
