@@ -87,9 +87,10 @@ export class SPJSONDataParser
 
     import(id: string, context: ListViewCommandSetContext, onComplete: Function ) {
         console.log("Importing data for id " + id); 
+
+        var siteURL = context.pageContext.site.absoluteUrl; 
+
         for ( var idx in this._jsondataDefinition) {
-            
-            var siteURL = context.pageContext.site.absoluteUrl; 
 
             // grab the list's items 
             console.log(`${siteURL}/_api/web/lists(guid'${id}')/fields`);
@@ -123,6 +124,22 @@ export class SPJSONDataParser
             }); 
         }
     }
+
+    addMissingFields( id: string, fields: SPFieldDefinitionCollection, context: ListViewCommandSetContext, onComplete: Function ) {
+        console.log("Adding missing fields to Sharepoint list."); 
+
+        var siteURL = context.pageContext.site.absoluteUrl; 
+
+        for ( var idx in fields ) { 
+            
+                // append the list items 
+                //context.spHttpClient.post(`${siteURL}/_api/web/lists(guid'${id}`)
+
+        }
+
+
+    }
+
 }
 
  
