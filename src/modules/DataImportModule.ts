@@ -1,4 +1,4 @@
-import { SPHttpClient, SPHttpClientResponse, SPHttpClientConfiguration, ISPHttpClientOptions } from '@microsoft/sp-http'; 
+import { SPHttpClient, SPHttpClientConfiguration, SPHttpClientResponse, ODataVersion, ISPHttpClientConfiguration, ISPHttpClientOptions } from '@microsoft/sp-http';
 import { ListViewCommandSetContext } from '@ms/sp-listview-extensibility';
 
 export class SPFieldDefinition
@@ -130,31 +130,28 @@ export class SPJSONDataParser
 
         var siteURL = context.pageContext.site.absoluteUrl; 
         var status: boolean = false; 
-        var counter: number = fields.items.length - 1; 
+        var counter: number = fields.items.length; 
 
         for ( var idx in fields.items ) { 
             var definition: SPFieldDefinition = fields.items[idx]; 
 
-            var opts: any = {
-                headers: { 
+            var opts: ISPHttpClientOptions = {
+                'headers': { 
                    'Accept': 'application/json;odata=nometadata',
-                    'Content-type': 'application/json;odata=verbose',
-                    'odata-version': '' 
+                   'Content-type': 'application/json;odata=verbose',
+                   'odata-version':'3.0',
+                   'X-RequestDigest': window["_spPageContextInfo"]["formDigestValue"]
                 },
-                body: {
-                    '__metadata': { 'type': 'SP.Field' }, 
-                    'Title': definition.Title, 
-                    'FieldTypeKind': definition.TypeAsString,
-                    'Required': definition.Required ? 'true' : 'false',
-                    'EnforceUniqueValues':'false',
-                    'StaticName': definition.Title.replace(' ', '_')
-                }
+                'body': `{'__metadata':{'type':'SP.ListItem'}, 'Title':'${definition.Title}','FieldTypeKind':2,'Required':true}`
             }; 
             
             // append the list items 
-            context.spHttpClient.post(`${siteURL}/_api/web/lists(guid'${id}')/Fields`,
+            context.spHttpClient.post(`${siteURL}/_api/web/lists(guid'${id}')/fields`,
             (<any>SPHttpClient.configurations.v1), opts
-            ).then((value) => { 
+            ).then((response) => { 
+                    response.json().then((value) => {
+                        console.log(value); 
+                    }); 
                     counter--; 
                     if (counter == 0) { 
                         onComplete(true); 
