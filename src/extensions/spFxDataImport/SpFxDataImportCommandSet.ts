@@ -77,7 +77,6 @@ export default class SpFxDataImportCommandSet extends BaseListViewCommandSet {
         console.log('element: ', element);
         ReactDOM.render(element, placeHolder);
         console.log('React rendered');
-
         break;
       case 'COMMAND_2':
         alert(`Clicked ${strings.Command2}`);
