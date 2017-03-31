@@ -1,0 +1,9 @@
+[
+	{ "Title": "first", 	"Length": "80", 	"Required": "true", 	"TypeAsString": "Text" },
+	{ "Title": "last",  	"Length": "80", 	"Required": "true", 	"TypeAsString": "Text" },
+  { "Title": "company", "Length":"80",		"Required": "true", 	"TypeAsString": "Text" },
+  { "Title": "email", 	"Length":"100",		"Required":"true", 		"TypeAsString":"Text" }, 
+  { "Title": "phone", 	"Length":"40", 		"Required":"false", 	"TypeAsString":"Text" }, 
+  { "Title": "address", "Length":"100", 	"Required":"true", 		"TypeAsString":"Text" }, 
+  { "Title": "greeting","Length":"100", 	"Required":"false", 	"TypeAsString":"Text" }
+]
