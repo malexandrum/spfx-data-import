@@ -77,7 +77,7 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
             <Button
               buttonType={ButtonType.primary}
               onClick={() => this.importMissingDataFields()}
-            >Save</Button>
+            >Import</Button>
             <Button
               onClick={() => this.setState({ isOpened: false })}
             >Cancel</Button>
