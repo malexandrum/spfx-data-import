@@ -11,7 +11,7 @@ import {
   SpinnerType,
   SpinnerSize,
 } from 'office-ui-fabric-react/lib//Spinner';
-import {Layer} from 'office-ui-fabric-react/lib/Layer';
+import { Layer } from 'office-ui-fabric-react/lib/Layer';
 
 
 export class ImportDialog extends React.Component<IImportDialogProps, any> {
@@ -41,8 +41,8 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
       ParseData.showListItemsInDefaultView(listid, missingfields, context, (success) => {
         this.setState({ busy: true });
         ParseData.importData(listid, context, () => {
-          this.setState({ isOpened: false, busy: false });
-          window.location.reload(true);
+          this.setState({ busy: false });
+
         });
       });
     });
@@ -76,9 +76,9 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
 
           <FieldsGrid fields={this.state.missing} />
 
-          { this.state.busy ? <Spinner size={SpinnerSize.large} /> : "" }
-          { this.state.recordsImported ? <Layer><i className="ms-icon ms-icon--success" />
-          Successfully imported {this.state.recordsImported} records!</Layer> : ""}
+          {this.state.busy ? <Spinner size={SpinnerSize.large} /> : ""}
+          {this.state.recordsImported ? <Layer><i className="ms-icon ms-icon--success" />
+            Successfully imported {this.state.recordsImported} records!</Layer> : ""}
 
           <DialogFooter>
             <Button
@@ -86,7 +86,10 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
               onClick={() => this.importMissingDataFields()}
             >Import</Button>
             <Button
-              onClick={() => this.setState({ isOpened: false })}
+              onClick={() => {
+                this.setState({ isOpened: false });
+                window.location.reload(true);
+              }}
             >Cancel</Button>
             {/*<Spinner type={SpinnerType.large} />*/}
           </DialogFooter>
