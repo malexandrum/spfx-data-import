@@ -12,9 +12,11 @@ var jsonData = [
      { firstname: "Bert", lastname: "Terce", foo: "undefined" }
 ]
 
-export function loadData(id: any, context: ListViewCommandSetContext, onComplete: Function ) {
+export function loadData(props: any, id: any, context: ListViewCommandSetContext, onComplete: Function ) {
     console.log('loading module....' + id); 
-    var dataParser: DI.SPJSONDataParser = new DI.SPJSONDataParser(jsonDataDefinition, jsonData); 
-    dataParser.import(id, context, onComplete);
+    var dataParser: DI.SPJSONDataParser = new DI.SPJSONDataParser(props.settings, props.data); 
+    if (props.settings != undefined && props.data != undefined) {
+        dataParser.import(id, context, onComplete);
+    }
 }
 
