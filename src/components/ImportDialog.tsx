@@ -80,6 +80,10 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
     })
   }
 
+  // componentWillUpdate() {
+  //   !this.state.missing && this.loadData();
+  // }
+
   private _handleSettings(event: any) {
 
     if (event.target.files.length == 0) { return }
@@ -89,7 +93,9 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
     reader.onload = (e: Event) => {
       this.setState({
         listSettings: e.target["result"]
-      })
+      });
+      // this.loadData();
+      console.log('Settings loaded', new Date());
     };
     reader.readAsText(file);
 
@@ -103,7 +109,8 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
     reader.onload = (e: Event) => {
       this.setState({
         listData: e.target["result"]
-      })
+      });
+      // this.loadData();
     };
     reader.readAsText(file);
   }
