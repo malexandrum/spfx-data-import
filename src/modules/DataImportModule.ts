@@ -243,8 +243,7 @@ export class SPJSONDataParser
                     }); 
                     counter--; 
                     if (counter == 0) { 
-                        alert(`${elements.items.length} records imported.`); 
-                        onComplete(true); 
+                        onComplete(elements.items.length); 
                     }
             }); 
         }
