@@ -15,6 +15,7 @@ import * as ReactDOM from 'react-dom';
 import * as strings from 'spFxDataImportStrings';
 
 import { ImportDialog } from '../../components/ImportDialog';
+import * as ParseData from '../../modules/ParseData'; 
 
 /**
  * If your command set uses the ClientSideComponentProperties JSON input,
@@ -70,6 +71,7 @@ export default class SpFxDataImportCommandSet extends BaseListViewCommandSet {
     switch (event.commandId) {
       case 'COMMAND_IMPORT':
         // alert(`Clicked ${strings.CommandImport}`);
+        ParseData.loadData(this.context.pageContext.list.id); 
         this.state.importOpen = true;
         break;
       case 'COMMAND_2':
