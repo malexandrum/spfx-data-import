@@ -30,6 +30,14 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
     });
   }
 
+  public importMissingDataFields() { 
+
+    ParseData.importMissingListItemFields(this.state.listSettings, this.props.listid, this.props.context, () => {
+
+    }); 
+
+  }
+
   public render() {
 
     return (

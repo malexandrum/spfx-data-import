@@ -81,8 +81,6 @@ export class SPJSONDataParser
                 this.entries.add(new SPFieldEntry(this._jsondata[obj])); 
             }
         }
-        console.log(this.fieldDefinitions.items); 
-        console.log(this.entries.items);
     }
 
     import(id: string, context: ListViewCommandSetContext, onComplete: Function ) {
@@ -129,11 +127,27 @@ export class SPJSONDataParser
         console.log("Adding missing fields to Sharepoint list."); 
 
         var siteURL = context.pageContext.site.absoluteUrl; 
+        var status: boolean = false; 
 
         for ( var idx in fields ) { 
+            var definition: SPFieldDefinition = fields[idx]; 
+            var body = { 
+                '__metadata': { 'type': 'SP.Field' }, 
+                'Title': definition.Title, 
+                'FieldTypeKind': definition.TypeAsString, 
+                'Required': definition.Required
+            }
             
-                // append the list items 
-                //context.spHttpClient.post(`${siteURL}/_api/web/lists(guid'${id}`)
+            // append the list items 
+            context.spHttpClient.post(`${siteURL}/_api/web/lists(guid'${id}')/fields`,
+            (<any>SPHttpClient.configurations.v1), {
+                headers: { 
+                   'Accept': 'application/json;odata=nometadata',
+                    'Content-type': 'application/json;odata=verbose',
+                    'odata-version': '' 
+                }, 
+                body: body
+            })
 
         }
     }
