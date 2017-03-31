@@ -26,7 +26,7 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
 
         <Dialog
           title='Import Options'
-          type={DialogType.close}
+          type={DialogType.largeHeader}
           isOpen={this.state.isOpened}
           isBlocking={true}
           onDismiss={() => this.setState({ isOpened: false })}
