@@ -85,7 +85,7 @@ export class SPJSONDataParser
         console.log(this.entries.items);
     }
 
-    import(id: string, context: ListViewCommandSetContext ) {
+    import(id: string, context: ListViewCommandSetContext, onComplete: Function ) {
         console.log("Importing data for id " + id); 
         for ( var idx in this._jsondataDefinition) {
             
@@ -102,7 +102,6 @@ export class SPJSONDataParser
                 }
             }).then((value) => {
                 value.json().then((value) => {
-                    debugger; 
                     var items:any = value.value; 
                     
                     var fields: SPFieldDefinitionCollection = new SPFieldDefinitionCollection(); 
@@ -115,8 +114,11 @@ export class SPJSONDataParser
                             Length: items[idx]["Length"]
                         })); 
                     }
-                    console.log(fields.items); 
-                
+
+                    // return the fields that are missing 
+                    var titles = fields.items.map((a) => { return a.Title; }); 
+                    var missing = this.fieldDefinitions.items.filter(n => titles.indexOf(n.Title) < 0); 
+                    onComplete(missing); 
                 }); 
             }); 
         }

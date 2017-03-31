@@ -4,6 +4,7 @@ import { Dialog, DialogType, DialogFooter } from 'office-ui-fabric-react/lib/Dia
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
 import { ChoiceGroup } from 'office-ui-fabric-react/lib/ChoiceGroup';
 import * as ParseData from '../modules/ParseData'
+import {SPFieldDefinitionCollection } from '../modules/DataImportModule'; 
 import {
   Spinner,
   SpinnerType
@@ -22,7 +23,10 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
 
   public loadData() { 
     this.setState({ isOpened : false }); 
-    ParseData.loadData(this.props.listid, this.props.context);
+    ParseData.loadData(this.props.listid, this.props.context, (missing) => { 
+        debugger; 
+        this.setState( { missing: missing }); 
+    });
   }
 
   public render() {
@@ -106,5 +110,6 @@ export interface IImportDialogProps {
   listid: string,
   context: any
   listSettings?: any,
-  listData?: any
+  listData?: any,
+  missingFields? : SPFieldDefinitionCollection
 }
