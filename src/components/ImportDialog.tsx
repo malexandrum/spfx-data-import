@@ -5,42 +5,72 @@ import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
 import { ChoiceGroup } from 'office-ui-fabric-react/lib/ChoiceGroup';
 
 
-export class ImportDialog extends React.Component<any, any> {
+export class ImportDialog extends React.Component<IImportDialogProps, any> {
 
-  constructor() {
-    super();
+  constructor(props: IImportDialogProps) {
+    super(props);
+    console.log('props isOpened', this.props.isOpened);
     this.state = {
-      isOpened: true
+      isOpened: this.props.isOpened
     };
   }
-  
+
   public render() {
-    
+
     // let isOpened = true;
-    
+
     return (
       <div className='dialogWrapper'>
-        
-          <Dialog
-            title='Import Options'
-            type={ DialogType.close }
-            isOpen={ this.state.isOpened }
-            isBlocking={true}
-            onDismiss={ () => this.setState({isOpened: false })}
-          >
-          Map import data
+
+        <Dialog
+          title='Import Options'
+          type={DialogType.close}
+          isOpen={this.state.isOpened}
+          isBlocking={true}
+          onDismiss={() => this.setState({ isOpened: false })}
+        >
+          <div>List Settings<br />
+          <input type="file" name="listSettings" />
+          </div>
+          <br />
+          <div>List Data<br />
+          <input type="file" name="listData" /></div>
           <DialogFooter>
-            <Button 
-              buttonType={ ButtonType.primary } 
-              onClick={ () => this.setState({isOpened: false }) }
+            <Button
+              buttonType={ButtonType.primary}
+              onClick={() => this.setState({ isOpened: false })}
             >Save</Button>
-            <Button 
-              onClick={ () => this.setState({isOpened: false }) }
+            <Button
+              onClick={() => this.setState({ isOpened: false })}
             >Cancel</Button>
           </DialogFooter>
-          </Dialog>
+        </Dialog>
       </div>
     );
   }
+  // componentWillUpdate() {
+  //   this.setState({
+  //     isOpened: this.props.isOpened
+  //   });
+  // }
+  componentWillReceiveProps() {
+    this.setState({
+      isOpened: true
+    })
+  }
+  // shouldComponentUpdate() {
+  //   alert('should component update');
+  //   return true;
+  // }
+  // componentWillUpdate() {
+  //   alert('will update');
+  // }
+  // private _destroy() {
+  //   React.unmountComponentAtNode(document.getElementById('container'))
+  // }
 }
 
+
+export interface IImportDialogProps {
+  isOpened: boolean
+}
