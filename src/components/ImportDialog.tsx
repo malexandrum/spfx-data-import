@@ -37,15 +37,17 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
 
     var context = this.props.context;
 
+    this.setState({ busy: true });
+
     ParseData.importMissingListItemFields(listid, missingfields, context, (success) => {
 
-        ParseData.showListItemsInDefaultView(listid, missingfields, context, (success) => { 
-          this.setState({ busy: true }); 
-          ParseData.importData(listid, context, (records) => { 
-              this.setState( { busy: false, recordsImported: records }); 
-            }); 
-          }); 
-      }); 
+      ParseData.showListItemsInDefaultView(listid, missingfields, context, (success) => {
+
+        ParseData.importData(listid, context, (records) => {
+          this.setState({ busy: false, recordsImported: records });
+        });
+      });
+    });
 
   }
 
@@ -76,13 +78,15 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
           <br />*/}
 
           <FieldsGrid fields={this.state.missing} />
+          
+          <br />
 
           {this.state.busy ? <Spinner size={SpinnerSize.large} /> : ""}
-          {this.state.recordsImported ? <Layer><i className="ms-icon ms-icon--success" />
-            Successfully imported {this.state.recordsImported} records!</Layer> : ""}
+          {this.state.recordsImported > 0 ? <div>
+            <b>Successfully imported {this.state.recordsImported} records!</b></div> : ""}
 
           <DialogFooter>
-            <Button
+            <Button disabled={!(this.state.listSettings && this.state.listData)}
               buttonType={ButtonType.primary}
               onClick={() => this.importMissingDataFields()}
             >Import</Button>
@@ -152,5 +156,5 @@ export interface IImportDialogProps {
   listData?: any,
   missing?: SPFieldDefinitionCollection,
   busy?: boolean,
-  recordsImported?: number
+  recordsImported?: number  
 }
