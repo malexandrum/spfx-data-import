@@ -136,8 +136,10 @@ export class SPJSONDataParser
                 //context.spHttpClient.post(`${siteURL}/_api/web/lists(guid'${id}`)
 
         }
+    }
 
-
+    appendData( id: string, elements: SPFieldEntryCollection, context: ListViewCommandSetContext, onComplete: Function ) {
+        console.log("Appending data to Sharepoint list.")
     }
 
 }
