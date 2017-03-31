@@ -16,6 +16,12 @@ export class FieldsGrid extends React.Component<IPropsFieldsGrid, any> {
 
         return (
             <table>
+                <thead>
+                    <td>Title</td>
+                    <td>Length</td>
+                    <td>TypeAsString</td>
+                    <td>Required</td>
+                </thead>
                 <tbody>
                     {el}
                 </tbody>
