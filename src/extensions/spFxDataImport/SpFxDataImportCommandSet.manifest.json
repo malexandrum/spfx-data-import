@@ -12,12 +12,12 @@
     {
       "commandId": "COMMAND_IMPORT",
       "title": "Import",
-      "iconImageUrl": "icons/request.png"
+      "iconImageUrl": "https://d30y9cdsu7xlg0.cloudfront.net/png/24574-200.png"
+    },
+    {
+      "commandId": "COMMAND_RANDOM",
+      "title": "Generate Random Data",
+      "iconImageUrl": "icons/random.png"
     }
-    // {
-    //   "commandId": "COMMAND_2",
-    //   "title": "Command Two",
-    //   "iconImageUrl": "icons/cancel.png"
-    // }
   ]
 }

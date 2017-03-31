@@ -17,6 +17,7 @@ import * as strings from 'spFxDataImportStrings';
 
 import * as ParseData from '../../modules/ParseData'; 
 import { ImportDialog, IImportDialogProps } from '../../components/ImportDialog';
+import { RandomDialog, IRandomDialogProps } from '../../components/RandomDialog';
 
 /**
  * If your command set uses the ClientSideComponentProperties JSON input,
@@ -72,14 +73,15 @@ export default class SpFxDataImportCommandSet extends BaseListViewCommandSet {
         let id = this.context.pageContext.list.id.toString(); 
         /** Render Import Dialog */
         let placeHolder: Element = document.querySelector(".os-Files-extensionPlaceHolder");
-        console.log('placeholder', placeHolder);
         let element: React.ReactElement<IImportDialogProps> = React.createElement(ImportDialog, { isOpened: true, listid: id, context: this.context }, null);
-        console.log('element: ', element);
-        ReactDOM.render(element, placeHolder);
-        console.log('React rendered');
+        ReactDOM.render(element, placeHolder);        
         break;
-      case 'COMMAND_2':
-        alert(`Clicked ${strings.Command2}`);
+      case 'COMMAND_RANDOM':
+        // alert(`Clicked ${strings.Command2}`);
+        /** Render Random Dialog */
+        let placeHolder2: Element = document.querySelectorAll(".os-Files-extensionPlaceHolder")[1];
+        let element2: React.ReactElement<IRandomDialogProps> = React.createElement(RandomDialog, { isOpened: true, listid: id, context: this.context }, null);
+        ReactDOM.render(element2, placeHolder2);
         break;
       default:
         throw new Error('Unknown command');
