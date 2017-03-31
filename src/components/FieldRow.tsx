@@ -7,10 +7,11 @@ export class FieldRow extends React.Component<SPFieldDefinition, any> {
     }
     render() {
         return (
-            <tr>
-                <td>{this.props.ID}</td>
+            <tr>                
                 <td>{this.props.Title}</td>
-                <td>{this.props.TypeAsString}</td>                
+                <td>{this.props.Length}</td>
+                <td>{this.props.TypeAsString}</td>
+                <td>{this.props.Required}</td>                
             </tr>
         );
     }
