@@ -8,8 +8,10 @@ import { SPFieldDefinitionCollection } from '../modules/DataImportModule';
 import { FieldsGrid, IPropsFieldsGrid } from './FieldsGrid';
 import {
   Spinner,
-  SpinnerType
+  SpinnerType,
+  SpinnerSize,
 } from 'office-ui-fabric-react/lib//Spinner';
+import {Layer} from 'office-ui-fabric-react/lib/Layer';
 
 
 export class ImportDialog extends React.Component<IImportDialogProps, any> {
@@ -23,27 +25,27 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
   }
 
   public loadData() {
-    ParseData.loadData({settings: this.state.listSettings, data: this.state.listData}, this.props.listid, this.props.context, (missing) => {
+    ParseData.loadData({ settings: this.state.listSettings, data: this.state.listData }, this.props.listid, this.props.context, (missing) => {
       this.setState({ missing: missing });
     });
   }
 
-  public importMissingDataFields() { 
+  public importMissingDataFields() {
 
-    var listid = this.props.listid; 
-    var missingfields = this.state.missing; 
+    var listid = this.props.listid;
+    var missingfields = this.state.missing;
 
-    var context = this.props.context; 
+    var context = this.props.context;
 
     ParseData.importMissingListItemFields(listid, missingfields, context, (success) => {
-        ParseData.showListItemsInDefaultView(listid, missingfields, context, (success) => { 
-          this.setState({ busy: true }); 
-          ParseData.importData(listid, context, () => { 
-              this.setState( { isOpened: false, busy: false }); 
-              window.location.reload(true);
-            }); 
-          }); 
-      }); 
+      ParseData.showListItemsInDefaultView(listid, missingfields, context, (success) => {
+        this.setState({ busy: true });
+        ParseData.importData(listid, context, () => {
+          this.setState({ isOpened: false, busy: false });
+          window.location.reload(true);
+        });
+      });
+    });
   }
 
   public render() {
@@ -71,8 +73,12 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
           <br />
           <div><label>Read List Data:</label>{this.state.listData}</div>
           <br />*/}
-          
+
           <FieldsGrid fields={this.state.missing} />
+
+          { this.state.busy ? <Spinner size={SpinnerSize.large} /> : "" }
+          { this.state.recordsImported ? <Layer><i className="ms-icon ms-icon--success" />
+          Successfully imported {this.state.recordsImported} records!</Layer> : ""}
 
           <DialogFooter>
             <Button
