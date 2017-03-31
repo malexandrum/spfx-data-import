@@ -1,6 +1,5 @@
 {
   "$schema": "../../node_modules/@microsoft/sp-module-interfaces/lib/manifestSchemas/jsonSchemas/clientSideComponentManifestSchema.json",
-
   "id": "f95da670-ad60-4b95-b110-bf6bdc38e491",
   "alias": "SpFxDataImportCommandSet",
   "componentType": "Extension",
