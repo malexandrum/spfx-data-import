@@ -4,7 +4,8 @@ import { Dialog, DialogType, DialogFooter } from 'office-ui-fabric-react/lib/Dia
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
 import { ChoiceGroup } from 'office-ui-fabric-react/lib/ChoiceGroup';
 import * as ParseData from '../modules/ParseData'
-import {SPFieldDefinitionCollection } from '../modules/DataImportModule'; 
+import { SPFieldDefinitionCollection } from '../modules/DataImportModule';
+import { FieldsGrid, IPropsFieldsGrid } from './FieldsGrid';
 import {
   Spinner,
   SpinnerType
@@ -21,11 +22,11 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
     };
   }
 
-  public loadData() { 
-    this.setState({ isOpened : false }); 
-    ParseData.loadData(this.props.listid, this.props.context, (missing) => { 
-        debugger; 
-        this.setState( { missing: missing }); 
+  public loadData() {
+    this.setState({ isOpened: false });
+    ParseData.loadData(this.props.listid, this.props.context, (missing) => {
+      debugger;
+      this.setState({ missing: missing });
     });
   }
 
@@ -46,25 +47,28 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
           </div>
           <br />
           <div>List Data File<br />
-            <input type="file" name="listData" onChange={(e) => this._handleData(e)}/></div>
+            <input type="file" name="listData" onChange={(e) => this._handleData(e)} /></div>
           <br />
           <br />
           <div><label>Read List Settings:</label>{this.state.listSettings}</div>
           <br />
           <br />
           <div><label>Read List Data:</label>{this.state.listData}</div>
+
+          <FieldsGrid fields={this.state.missing} />
+
           <DialogFooter>
             <Button
-              buttonType={ButtonType.primary}
-              onClick={() =>  this.loadData() }
-            >Save</Button>
-            <Button
-              onClick={() => this.setState({ isOpened: false })}
-            >Cancel</Button>
-            <Spinner type={ SpinnerType.large } />
+            buttonType={ButtonType.primary}
+            onClick={() => this.loadData()}
+          >Save</Button>
+          <Button
+            onClick={() => this.setState({ isOpened: false })}
+          >Cancel</Button>
+          <Spinner type={SpinnerType.large} />
           </DialogFooter>
         </Dialog>
-      </div>
+      </div >
     );
   }
 
@@ -111,5 +115,5 @@ export interface IImportDialogProps {
   context: any
   listSettings?: any,
   listData?: any,
-  missingFields? : SPFieldDefinitionCollection
+  missing?: SPFieldDefinitionCollection
 }
