@@ -1,5 +1,14 @@
 import * as React from 'react';
 import { FieldRow } from './FieldRow';
+import { Link } from 'office-ui-fabric-react/lib/Link';
+import { TextField } from 'office-ui-fabric-react/lib/TextField';
+import {
+  DetailsList,
+  Selection
+} from 'office-ui-fabric-react/lib/DetailsList';
+import { MarqueeSelection } from 'office-ui-fabric-react/lib/MarqueeSelection';
+// import { createListItems } from '@uifabric/example-app-base';
+
 import { SPFieldDefinitionCollection } from '../modules/DataImportModule';
 
 export class FieldsGrid extends React.Component<IPropsFieldsGrid, any> {
@@ -23,7 +32,7 @@ export class FieldsGrid extends React.Component<IPropsFieldsGrid, any> {
                         </thead>
                         <tbody>
                             {this.props.fields.items.map((field) =>
-                                <FieldRow Required={field.Required} Title={field.Title} TypeAsString={field.TypeAsString} Length={field.Length} key={field.Title} />
+                                <FieldRow Required={field.Required} Title={field.Title} TypeAsString={field.TypeAsString} Length={field.Length} key={(new Date()).toString()} />
                             )}
                         </tbody>
                     </table>
