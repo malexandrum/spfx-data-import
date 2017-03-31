@@ -102,7 +102,8 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
       this.setState({
         listSettings: e.target["result"]
       });
-      // this.loadData();
+      debugger;
+      this.loadData();
       console.log('Settings loaded', new Date());
     };
     reader.readAsText(file);
@@ -118,7 +119,9 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
       this.setState({
         listData: e.target["result"]
       });
-      // this.loadData();
+      debugger;
+      this.loadData();
+      console.log('Data loaded', new Date());
     };
     reader.readAsText(file);
   }
