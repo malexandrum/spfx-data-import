@@ -240,10 +240,10 @@ export class SPJSONDataParser
             (<any>SPHttpClient.configurations.v1), opts
             ).then((response) => { 
                     response.json().then((value) => {
-                        console.log(value); 
                     }); 
                     counter--; 
                     if (counter == 0) { 
+                        alert(`${elements.items.length} records imported.`); 
                         onComplete(true); 
                     }
             }); 
