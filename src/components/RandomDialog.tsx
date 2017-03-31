@@ -9,14 +9,14 @@ import { FieldsGrid, IPropsFieldsGrid } from './FieldsGrid';
 import {
   Spinner,
   SpinnerType
-} from 'office-ui-fabric-react/lib//Spinner';
+} from 'office-ui-fabric-react/lib/Spinner';
 
 
 export class RandomDialog extends React.Component<IRandomDialogProps, any> {
 
   constructor(props: IRandomDialogProps) {
     super(props);
-    console.log('props isOpened', this.props.isOpened);
+    console.log('props on Random isOpened', this.props.isOpened);
     this.state = {
       isOpened: this.props.isOpened
     };
@@ -44,19 +44,13 @@ export class RandomDialog extends React.Component<IRandomDialogProps, any> {
       <div className='dialogWrapper'>
 
         <Dialog
-          title='Generate Random Data'
+          title='Random Data'
           type={DialogType.largeHeader}
           isOpen={this.state.isOpened}
           isBlocking={true}
           onDismiss={() => this.setState({ isOpened: false })}
         >
-          <div>List Settings File<br />
-            <input type="file" name="listSettings" onChange={(e) => this._handleSettings(e)} />
-          </div>
-          <br />
-          <div>List Data File<br />
-            <input type="file" name="listData" onChange={(e) => this._handleData(e)} /></div>
-          <br />
+          
           <br />
           {/*<div><label>Read List Settings:</label>{this.state.listSettings}</div>
           <br />

@@ -12,12 +12,12 @@
     {
       "commandId": "COMMAND_IMPORT",
       "title": "Import",
-      "iconImageUrl": "https://d30y9cdsu7xlg0.cloudfront.net/png/24574-200.png"
+      "iconImageUrl": "https://static2.sharepointonline.com/files/fabric/assets/brand-icons/product/svg/excel_48x1_5.svg"
     },
     {
       "commandId": "COMMAND_RANDOM",
-      "title": "Generate Random Data",
-      "iconImageUrl": "icons/random.png"
+      "title": "Random Data",
+      "iconImageUrl": "https://cdn3.iconfinder.com/data/icons/music-and-audio-controls/100/Shuffle-512.png"
     }
   ]
 }
