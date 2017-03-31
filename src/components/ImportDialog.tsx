@@ -62,7 +62,6 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
           <div><label>Read List Data:</label>{this.state.listData}</div>
           <br />*/}
           
-          <label>Fields Grid</label>
           <FieldsGrid fields={this.state.missing} />
 
           <DialogFooter>
