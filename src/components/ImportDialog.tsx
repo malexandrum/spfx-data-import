@@ -38,14 +38,15 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
     var context = this.props.context;
 
     ParseData.importMissingListItemFields(listid, missingfields, context, (success) => {
-      ParseData.showListItemsInDefaultView(listid, missingfields, context, (success) => {
-        this.setState({ busy: true });
-        ParseData.importData(listid, context, () => {
-          this.setState({ busy: false });
 
-        });
-      });
-    });
+        ParseData.showListItemsInDefaultView(listid, missingfields, context, (success) => { 
+          this.setState({ busy: true }); 
+          ParseData.importData(listid, context, (records) => { 
+              this.setState( { busy: false, recordsImported: records }); 
+            }); 
+          }); 
+      }); 
+
   }
 
   public render() {
@@ -150,5 +151,6 @@ export interface IImportDialogProps {
   listSettings?: any,
   listData?: any,
   missing?: SPFieldDefinitionCollection,
-  busy?: boolean
+  busy?: boolean,
+  recordsImported?: number
 }
