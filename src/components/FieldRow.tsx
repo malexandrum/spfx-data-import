@@ -14,5 +14,6 @@ export class FieldRow extends React.Component<any, any> {
 }
 
 export interface IFieldRowProps {
-
+    internalName: string,
+    fieldTypeAsString: string
 }
