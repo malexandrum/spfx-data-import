@@ -17,8 +17,6 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
 
   public render() {
 
-    // let isOpened = true;
-
     return (
       <div className='dialogWrapper'>
 
@@ -30,14 +28,17 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
           onDismiss={() => this.setState({ isOpened: false })}
         >
           <div>List Settings<br />
-            <input type="file" name="listSettings" onChange={this._handleSettings} />
+            <input type="file" name="listSettings" onChange={(e) => this._handleSettings(e)} />
           </div>
           <br />
           <div>List Data<br />
-            <input type="file" name="listData" /></div>
+            <input type="file" name="listData" onChange={(e) => this._handleData(e)}/></div>
           <br />
           <br />
           <div><label>Read List Settings:</label>{this.state.listSettings}</div>
+          <br />
+          <br />
+          <div><label>Read List Data:</label>{this.state.listData}</div>
           <DialogFooter>
             <Button
               buttonType={ButtonType.primary}
@@ -51,11 +52,7 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
       </div>
     );
   }
-  // componentWillUpdate() {
-  //   this.setState({
-  //     isOpened: this.props.isOpened
-  //   });
-  // }
+
   componentWillReceiveProps() {
     this.setState({
       isOpened: true
@@ -63,35 +60,38 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
   }
 
   private _handleSettings(event: any) {
-    console.log('files: ', event.target.files)
+
     if (event.target.files.length == 0) { return }
 
     const file = event.target.files[0];
     const reader = new FileReader();
-    debugger;
-    const self = this;
     reader.onload = (e: Event) => {
-      self.setState({
+      this.setState({
         listSettings: e.target["result"]
       })
     };
     reader.readAsText(file);
 
   }
-  // shouldComponentUpdate() {
-  //   alert('should component update');
-  //   return true;
-  // }
-  // componentWillUpdate() {
-  //   alert('will update');
-  // }
-  // private _destroy() {
-  //   React.unmountComponentAtNode(document.getElementById('container'))
-  // }
+
+  private _handleData(event: any) {
+    if (event.target.files.length == 0) { return }
+
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (e: Event) => {
+      this.setState({
+        listData: e.target["result"]
+      })
+    };
+    reader.readAsText(file);
+  }
+
 }
 
 
 export interface IImportDialogProps {
   isOpened: boolean,
-  listSettings?: string
+  listSettings?: any,
+  listData?: any
 }
