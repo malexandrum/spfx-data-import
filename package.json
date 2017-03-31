@@ -9,7 +9,8 @@
     "@microsoft/sp-core-library": "1.0.0-dk4.12",
     "@microsoft/sp-webpart-base": "1.0.0-dk4.12",
     "@types/webpack-env": ">=1.12.1 <1.14.0",
-    "@ms/sp-listview-extensibility": "0.1.0-dk4.7"
+    "@ms/sp-listview-extensibility": "0.1.0-dk4.7",
+    "office-ui-fabric-react": ">=2.10.4"
   },
   "devDependencies": {
     "@microsoft/sp-build-web": "1.0.1-dk4.12",

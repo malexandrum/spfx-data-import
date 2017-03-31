@@ -3,15 +3,12 @@ import * as React from 'react';
 import { Dialog, DialogType, DialogFooter } from 'office-ui-fabric-react/lib/Dialog';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
 import { ChoiceGroup } from 'office-ui-fabric-react/lib/ChoiceGroup';
-<<<<<<< HEAD
 import * as ParseData from '../modules/ParseData'
-=======
 import {
   Spinner,
   SpinnerType
 } from 'office-ui-fabric-react/lib//Spinner';
 
->>>>>>> 98741fa8d7ea95e3191a1868000c844a457997d9
 
 export class ImportDialog extends React.Component<IImportDialogProps, any> {
 
@@ -106,11 +103,8 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
 
 export interface IImportDialogProps {
   isOpened: boolean,
-<<<<<<< HEAD
   listid: string,
   context: any
-=======
   listSettings?: any,
   listData?: any
->>>>>>> 98741fa8d7ea95e3191a1868000c844a457997d9
 }
