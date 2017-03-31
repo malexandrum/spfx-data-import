@@ -54,18 +54,20 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
           <br />
           <br />
           <div><label>Read List Data:</label>{this.state.listData}</div>
-
+          <br />
+          
+          <label>Fields Grid</label>
           <FieldsGrid fields={this.state.missing} />
 
           <DialogFooter>
             <Button
-            buttonType={ButtonType.primary}
-            onClick={() => this.loadData()}
-          >Save</Button>
-          <Button
-            onClick={() => this.setState({ isOpened: false })}
-          >Cancel</Button>
-          <Spinner type={SpinnerType.large} />
+              buttonType={ButtonType.primary}
+              onClick={() => this.loadData()}
+            >Save</Button>
+            <Button
+              onClick={() => this.setState({ isOpened: false })}
+            >Cancel</Button>
+            <Spinner type={SpinnerType.large} />
           </DialogFooter>
         </Dialog>
       </div >
