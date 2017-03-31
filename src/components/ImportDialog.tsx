@@ -37,11 +37,11 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
           isBlocking={true}
           onDismiss={() => this.setState({ isOpened: false })}
         >
-          <div>List Settings<br />
+          <div>List Settings File<br />
             <input type="file" name="listSettings" onChange={(e) => this._handleSettings(e)} />
           </div>
           <br />
-          <div>List Data<br />
+          <div>List Data File<br />
             <input type="file" name="listData" onChange={(e) => this._handleData(e)}/></div>
           <br />
           <br />
