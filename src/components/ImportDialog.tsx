@@ -3,6 +3,10 @@ import * as React from 'react';
 import { Dialog, DialogType, DialogFooter } from 'office-ui-fabric-react/lib/Dialog';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
 import { ChoiceGroup } from 'office-ui-fabric-react/lib/ChoiceGroup';
+import {
+  Spinner,
+  SpinnerType
+} from 'office-ui-fabric-react/lib//Spinner';
 
 
 export class ImportDialog extends React.Component<IImportDialogProps, any> {
@@ -47,6 +51,7 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
             <Button
               onClick={() => this.setState({ isOpened: false })}
             >Cancel</Button>
+            <Spinner type={ SpinnerType.large } />
           </DialogFooter>
         </Dialog>
       </div>
