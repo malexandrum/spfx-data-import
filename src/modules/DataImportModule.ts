@@ -126,14 +126,19 @@ export class SPJSONDataParser
     }
 
     addMissingFields( id: string, fields: SPFieldDefinitionCollection, context: ListViewCommandSetContext, onComplete: Function ) {
-        console.log("Adding missing fields to Sharepoint list."); 
+        console.log("Adding missing fields to Sharepoint list.");
 
         var siteURL = context.pageContext.site.absoluteUrl; 
         var status: boolean = false; 
-        var counter: number = fields.items.length; 
 
-        for ( var idx in fields.items ) { 
-            var definition: SPFieldDefinition = fields.items[idx]; 
+        var _tmpFieldCollection: SPFieldDefinitionCollection = new  SPFieldDefinitionCollection(); 
+        for ( var idx in fields.items ) {
+            _tmpFieldCollection.add( fields.items[idx]); 
+        }
+      
+        var currentField:SPFieldDefinition = _tmpFieldCollection.items.shift(); 
+
+        if (currentField) {
 
             var opts: ISPHttpClientOptions = {
                 'headers': { 
@@ -142,11 +147,96 @@ export class SPJSONDataParser
                    'odata-version':'3.0',
                    'X-RequestDigest': window["_spPageContextInfo"]["formDigestValue"]
                 },
-                'body': `{'__metadata':{'type':'SP.ListItem'}, 'Title':'${definition.Title}','FieldTypeKind':2,'Required':true}`
+                'body': `{'__metadata':{'type':'SP.Field'}, 'Title':'${currentField.Title}','FieldTypeKind':2,'Required':true}`
             }; 
             
             // append the list items 
             context.spHttpClient.post(`${siteURL}/_api/web/lists(guid'${id}')/fields`,
+            (<any>SPHttpClient.configurations.v1), opts
+            ).then((response) => { 
+                    response.json().then((value) => {
+                        console.log(value); 
+                    }); 
+                   if (_tmpFieldCollection.items.length > 0) {
+                       this.addMissingFields(id, _tmpFieldCollection, context, onComplete); 
+                   }
+                   else { 
+                       onComplete(true);  
+                   }
+            }); 
+        }
+    }
+
+    showFieldsInDefaultView( id:string, fields: SPFieldDefinitionCollection, context: ListViewCommandSetContext, onComplete: Function) 
+    {
+        debugger; 
+
+       var _tmpFieldCollection: SPFieldDefinitionCollection = new  SPFieldDefinitionCollection(); 
+        for ( var idx in fields.items ) {
+            _tmpFieldCollection.add( fields.items[idx]); 
+        }
+      
+        var currentfield:SPFieldDefinition = _tmpFieldCollection.items.shift(); 
+
+        var siteURL = context.pageContext.site.absoluteUrl; 
+        var currentViewId:string = (<string>window["_spPageContextInfo"]["viewId"]).replace("{","").replace("}",""); 
+
+        if (currentfield) {
+        //for (var idx in fields.items) {
+            //var fieldname:string = fields.items[idx].Title; 
+            var fieldname:string = currentfield.Title; 
+            var opts: ISPHttpClientOptions = {
+                'headers': { 
+                   'Accept': 'application/json;odata=nometadata',
+                   'Content-type': 'application/json;odata=verbose',
+                   'odata-version':'3.0',
+                   'X-RequestDigest': window["_spPageContextInfo"]["formDigestValue"]
+                },
+                'body': `{'strField':'${fieldname}'}`
+            }; 
+            
+            // append the list items 
+            context.spHttpClient.post(`${siteURL}/_api/web/lists(guid'${id}')/views(guid'${currentViewId}')/ViewFields/AddViewField`,
+            (<any>SPHttpClient.configurations.v1), opts
+            ).then((response) => { 
+                    response.json().then((value) => {
+                        console.log(value); 
+                    }); 
+                    if (_tmpFieldCollection.items.length > 0) {
+                        this.showFieldsInDefaultView(id, _tmpFieldCollection, context, onComplete); 
+                    }
+                    else {
+                        onComplete(id, context); 
+                    }
+            }); 
+        }
+    }
+
+    appendData( id: string, context: ListViewCommandSetContext, onComplete: Function ) {
+        console.log("Appending data to Sharepoint list.")
+
+        var elements = this.entries; 
+
+        var siteURL = context.pageContext.site.absoluteUrl; 
+        var status: boolean = false; 
+        var counter: number = elements.items.length; 
+
+        for ( var idx in elements.items ) {
+            var element: SPFieldEntry = elements.items[idx]; 
+            var json:string = JSON.stringify(element).replace("{","").replace("}",""); 
+            
+            var opts: ISPHttpClientOptions = {
+                'headers': { 
+                   'Accept': 'application/json;odata=nometadata',
+                   'Content-type': 'application/json;odata=verbose',
+                   'odata-version':'3.0',
+                   'X-RequestDigest': window["_spPageContextInfo"]["formDigestValue"]
+                },
+                'body': `{'__metadata':{'type':'SP.ListItem'}, ${json}}`
+            }; 
+            
+            // append the list items 
+            context.spHttpClient.post(`${siteURL}/_api/web/lists(guid'${id}')/items`,
             (<any>SPHttpClient.configurations.v1), opts
             ).then((response) => { 
                     response.json().then((value) => {
@@ -158,10 +248,6 @@ export class SPJSONDataParser
                     }
             }); 
         }
-    }
-
-    appendData( id: string, elements: SPFieldEntryCollection, context: ListViewCommandSetContext, onComplete: Function ) {
-        console.log("Appending data to Sharepoint list.")
     }
 
 }
