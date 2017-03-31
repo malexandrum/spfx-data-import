@@ -25,8 +25,18 @@ export function loadData(props: any, id: any, context: ListViewCommandSetContext
     }
 }
 
-export function importMissingListItemFields(fields: any, id: any, context: ListViewCommandSetContext, onComplete: Function) { 
+export function importMissingListItemFields(id:any, fields:any, context: ListViewCommandSetContext, onComplete: Function) { 
     console.log('adding missing fields...'); 
     dataParser.addMissingFields(id, fields, context, onComplete); 
+}
+
+export function showListItemsInDefaultView(id:any, fields: any, context: ListViewCommandSetContext, onComplete: Function) {
+    console.log('making list items visible...'); 
+    dataParser.showFieldsInDefaultView(id, fields, context, onComplete); 
+}
+
+export function importData(id: any, context: ListViewCommandSetContext, onComplete:Function) {
+    console.log('adding data...'); 
+    dataParser.appendData(id, context, onComplete); 
 }
 
