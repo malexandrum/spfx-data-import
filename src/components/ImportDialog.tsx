@@ -31,7 +31,8 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
 
   public importMissingDataFields() { 
 
-    ParseData.importMissingListItemFields(this.state.listSettings, this.props.listid, this.props.context, () => {
+    debugger; 
+    ParseData.importMissingListItemFields(this.state.missing, this.props.listid, this.props.context, () => {
 
     }); 
 
@@ -69,7 +70,7 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
           <DialogFooter>
             <Button
               buttonType={ButtonType.primary}
-              onClick={() => this.loadData()}
+              onClick={() => this.importMissingDataFields()}
             >Save</Button>
             <Button
               onClick={() => this.setState({ isOpened: false })}
@@ -101,7 +102,6 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
       this.setState({
         listSettings: e.target["result"]
       });
-      debugger;
       this.loadData();
       console.log('Settings loaded', new Date());
     };
@@ -118,7 +118,6 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
       this.setState({
         listData: e.target["result"]
       });
-      debugger;
       this.loadData();
       console.log('Data loaded', new Date());
     };

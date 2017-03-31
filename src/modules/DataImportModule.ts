@@ -1,4 +1,4 @@
-import { SPHttpClient, SPHttpClientResponse, SPHttpClientConfiguration } from '@microsoft/sp-http'; 
+import { SPHttpClient, SPHttpClientResponse, SPHttpClientConfiguration, ISPHttpClientOptions } from '@microsoft/sp-http'; 
 import { ListViewCommandSetContext } from '@ms/sp-listview-extensibility';
 
 export class SPFieldDefinition
@@ -88,7 +88,6 @@ export class SPJSONDataParser
 
         var siteURL = context.pageContext.site.absoluteUrl; 
 
-        for ( var idx in this._jsondataDefinition) {
 
             // grab the list's items 
             console.log(`${siteURL}/_api/web/lists(guid'${id}')/fields`);
@@ -118,14 +117,12 @@ export class SPJSONDataParser
                     var titles = fields.items.map((a) => { return a.Title; }); 
                     var missing = this.fieldDefinitions.items.filter(n => titles.indexOf(n.Title) < 0); 
                     var collection: SPFieldDefinitionCollection = new SPFieldDefinitionCollection(); 
-                    debugger; 
                     for ( var index in missing ) {
                         collection.add( missing[index] ); 
                     }
                     onComplete(collection); 
                 }); 
             }); 
-        }
     }
 
     addMissingFields( id: string, fields: SPFieldDefinitionCollection, context: ListViewCommandSetContext, onComplete: Function ) {
@@ -133,26 +130,36 @@ export class SPJSONDataParser
 
         var siteURL = context.pageContext.site.absoluteUrl; 
         var status: boolean = false; 
+        var counter: number = fields.items.length - 1; 
 
-        for ( var idx in fields ) { 
-            var definition: SPFieldDefinition = fields[idx]; 
-            var body = { 
-                '__metadata': { 'type': 'SP.Field' }, 
-                'Title': definition.Title, 
-                'FieldTypeKind': definition.TypeAsString, 
-                'Required': definition.Required
-            }
-            
-            // append the list items 
-            context.spHttpClient.post(`${siteURL}/_api/web/lists(guid'${id}')/fields`,
-            (<any>SPHttpClient.configurations.v1), {
+        for ( var idx in fields.items ) { 
+            var definition: SPFieldDefinition = fields.items[idx]; 
+
+            var opts: any = {
                 headers: { 
                    'Accept': 'application/json;odata=nometadata',
                     'Content-type': 'application/json;odata=verbose',
                     'odata-version': '' 
+                },
+                body: {
+                    '__metadata': { 'type': 'SP.Field' }, 
+                    'Title': definition.Title, 
+                    'FieldTypeKind': definition.TypeAsString,
+                    'Required': definition.Required ? 'true' : 'false',
+                    'EnforceUniqueValues':'false',
+                    'StaticName': definition.Title.replace(' ', '_')
                 }
-            })
-
+            }; 
+            
+            // append the list items 
+            context.spHttpClient.post(`${siteURL}/_api/web/lists(guid'${id}')/Fields`,
+            (<any>SPHttpClient.configurations.v1), opts
+            ).then((value) => { 
+                    counter--; 
+                    if (counter == 0) { 
+                        onComplete(true); 
+                    }
+            }); 
         }
     }
 
