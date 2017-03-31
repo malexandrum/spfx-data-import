@@ -16,7 +16,11 @@ export var dataParser: DI.SPJSONDataParser;
 
 export function loadData(props: any, id: any, context: ListViewCommandSetContext, onComplete: Function ) {
     console.log('loading module....' + id); 
-    dataParser = new DI.SPJSONDataParser(props.settings, props.data); 
+    debugger; 
+    var settings = JSON.parse(props.settings); 
+    var data = JSON.parse(props.data); 
+
+    dataParser = new DI.SPJSONDataParser(settings, data); 
     if (props.settings != undefined && props.data != undefined) {
         dataParser.import(id, context, onComplete);
     }

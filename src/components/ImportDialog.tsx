@@ -23,7 +23,7 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
   }
 
   public loadData() {
-    this.setState({ isOpened: false });
+    //this.setState({ isOpened: false });
     ParseData.loadData({settings: this.state.listSettings, data: this.state.listData}, this.props.listid, this.props.context, (missing) => {
       debugger;
       this.setState({ missing: missing });

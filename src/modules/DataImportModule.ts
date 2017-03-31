@@ -117,7 +117,12 @@ export class SPJSONDataParser
                     // return the fields that are missing 
                     var titles = fields.items.map((a) => { return a.Title; }); 
                     var missing = this.fieldDefinitions.items.filter(n => titles.indexOf(n.Title) < 0); 
-                    onComplete(missing); 
+                    var collection: SPFieldDefinitionCollection = new SPFieldDefinitionCollection(); 
+                    debugger; 
+                    for ( var index in missing ) {
+                        collection.add( missing[index] ); 
+                    }
+                    onComplete(collection); 
                 }); 
             }); 
         }
@@ -145,8 +150,7 @@ export class SPJSONDataParser
                    'Accept': 'application/json;odata=nometadata',
                     'Content-type': 'application/json;odata=verbose',
                     'odata-version': '' 
-                }, 
-                body: body
+                }
             })
 
         }
