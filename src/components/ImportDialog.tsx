@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Dialog, DialogType, DialogFooter } from 'office-ui-fabric-react/lib/Dialog';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
 import { ChoiceGroup } from 'office-ui-fabric-react/lib/ChoiceGroup';
-
+import * as ParseData from '../modules/ParseData'
 
 export class ImportDialog extends React.Component<IImportDialogProps, any> {
 
@@ -13,6 +13,11 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
     this.state = {
       isOpened: this.props.isOpened
     };
+  }
+
+  public loadData() { 
+    this.setState({ isOpened : false }); 
+    ParseData.loadData(this.props.listid, this.props.context);
   }
 
   public render() {
@@ -38,7 +43,7 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
           <DialogFooter>
             <Button
               buttonType={ButtonType.primary}
-              onClick={() => this.setState({ isOpened: false })}
+              onClick={() =>  this.loadData() }
             >Save</Button>
             <Button
               onClick={() => this.setState({ isOpened: false })}
@@ -72,5 +77,7 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
 
 
 export interface IImportDialogProps {
-  isOpened: boolean
+  isOpened: boolean,
+  listid: string,
+  context: any
 }

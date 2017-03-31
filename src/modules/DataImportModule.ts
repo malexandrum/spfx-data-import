@@ -1,11 +1,13 @@
-import { SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http'; 
+import { SPHttpClient, SPHttpClientResponse, SPHttpClientConfiguration } from '@microsoft/sp-http'; 
+import { ListViewCommandSetContext } from '@ms/sp-listview-extensibility';
 
 export class SPFieldDefinition
 {
-    name: string; 
-    length: number = -1; 
-    required: boolean = false; 
-    type: string; 
+    ID?: any; 
+    Title: string; 
+    Required: boolean = false;
+    TypeAsString: string;
+    Length?: number; 
 
     constructor(values: Object = {}) {
         (<any>Object).assign(this, values); 
@@ -83,11 +85,42 @@ export class SPJSONDataParser
         console.log(this.entries.items);
     }
 
-    import(list: string) {
-        console.log("Importing data..."); 
-    }
+    import(id: string, context: ListViewCommandSetContext ) {
+        console.log("Importing data for id " + id); 
+        for ( var idx in this._jsondataDefinition) {
+            
+            var siteURL = context.pageContext.site.absoluteUrl; 
 
-    
+            // grab the list's items 
+            console.log(`${siteURL}/_api/web/lists(guid'${id}')/fields`);
+            context.spHttpClient.get(`${siteURL}/_api/web/lists(guid'${id}')/fields?$select=Id,Title,Required,TypeAsString,MaxLength`,
+            (<any>SPHttpClient.configurations.v1), {
+                headers: {
+                    'Accept': 'application/json;odata=nometadata',
+                    'Content-type': 'application/json;odata=verbose',
+                    'odata-version': ''
+                }
+            }).then((value) => {
+                value.json().then((value) => {
+                    debugger; 
+                    var items:any = value.value; 
+                    
+                    var fields: SPFieldDefinitionCollection = new SPFieldDefinitionCollection(); 
+                    for ( var idx in items ) {
+                        fields.add(new SPFieldDefinition({
+                            Id: items[idx]["Id"],
+                            Title : items[idx]["Title"],
+                            Required: items[idx]["Required"],
+                            TypeAsString: items[idx]["TypeAsString"],
+                            Length: items[idx]["Length"]
+                        })); 
+                    }
+                    console.log(fields.items); 
+                
+                }); 
+            }); 
+        }
+    }
 }
 
  
