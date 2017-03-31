@@ -31,7 +31,7 @@ export class FieldsGrid extends React.Component<IPropsFieldsGrid, any> {
                         </thead>
                         <tbody>
                             {this.props.fields.items.map((field) =>
-                                <FieldRow Required={field.Required} Title={field.Title} TypeAsString={field.TypeAsString} Length={field.Length} key={field["name"]} />
+                                <FieldRow Required={field.Required} Title={field.Title} TypeAsString={field.TypeAsString} Length={field.Length} key={field["Title"]} />
                             )}
                         </tbody>
                     </table>
