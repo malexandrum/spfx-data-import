@@ -24,14 +24,12 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
 
   public loadData() {
     ParseData.loadData({settings: this.state.listSettings, data: this.state.listData}, this.props.listid, this.props.context, (missing) => {
-      debugger;
       this.setState({ missing: missing });
     });
   }
 
   public importMissingDataFields() { 
 
-    debugger; 
     ParseData.importMissingListItemFields(this.state.missing, this.props.listid, this.props.context, () => {
 
     }); 

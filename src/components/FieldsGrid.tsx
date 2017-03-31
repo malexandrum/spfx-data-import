@@ -7,7 +7,6 @@ export class FieldsGrid extends React.Component<IPropsFieldsGrid, any> {
         super(props);
     }
     render() {
-        debugger;
         let el: any;
         if (this.props.fields) {
             el =
