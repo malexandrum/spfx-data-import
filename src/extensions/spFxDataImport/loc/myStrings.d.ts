@@ -1,6 +1,6 @@
 declare interface ISpFxDataImportStrings {
   CommandImport: string;
-  Command2: string;
+  CommandRandom: string;
 }
 
 declare module 'spFxDataImportStrings' {

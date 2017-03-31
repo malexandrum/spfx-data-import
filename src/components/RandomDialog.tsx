@@ -12,9 +12,9 @@ import {
 } from 'office-ui-fabric-react/lib//Spinner';
 
 
-export class ImportDialog extends React.Component<IImportDialogProps, any> {
+export class RandomDialog extends React.Component<IRandomDialogProps, any> {
 
-  constructor(props: IImportDialogProps) {
+  constructor(props: IRandomDialogProps) {
     super(props);
     console.log('props isOpened', this.props.isOpened);
     this.state = {
@@ -24,25 +24,18 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
 
   public loadData() {
     ParseData.loadData({settings: this.state.listSettings, data: this.state.listData}, this.props.listid, this.props.context, (missing) => {
+      debugger;
       this.setState({ missing: missing });
     });
   }
 
   public importMissingDataFields() { 
 
-    var listid = this.props.listid; 
-    var missingfields = this.state.missing; 
+    debugger; 
+    ParseData.importMissingListItemFields(this.state.missing, this.props.listid, this.props.context, () => {
 
-    var context = this.props.context; 
+    }); 
 
-    ParseData.importMissingListItemFields(listid, missingfields, context, (success) => {
-        ParseData.showListItemsInDefaultView(listid, missingfields, context, (success) => { 
-          ParseData.importData(listid, context, () => { 
-            this.setState( { isOpened: false }); 
-                window.location.reload(true);
-            }); 
-          }); 
-      }); 
   }
 
   public render() {
@@ -51,7 +44,7 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
       <div className='dialogWrapper'>
 
         <Dialog
-          title='Import Options'
+          title='Generate Random Data'
           type={DialogType.largeHeader}
           isOpen={this.state.isOpened}
           isBlocking={true}
@@ -71,6 +64,7 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
           <div><label>Read List Data:</label>{this.state.listData}</div>
           <br />*/}
           
+          <label>Fields Grid</label>
           <FieldsGrid fields={this.state.missing} />
 
           <DialogFooter>
@@ -133,7 +127,7 @@ export class ImportDialog extends React.Component<IImportDialogProps, any> {
 }
 
 
-export interface IImportDialogProps {
+export interface IRandomDialogProps {
   isOpened: boolean,
   listid: string,
   context: any
