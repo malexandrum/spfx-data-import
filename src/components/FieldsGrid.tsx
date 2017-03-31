@@ -8,7 +8,7 @@ export class FieldsGrid extends React.Component<IPropsFieldsGrid, any> {
     }
     render() {
         debugger;
-        const el = this.props.fields
+        const el = this.props.fields && this.props.fields.items
             ? this.props.fields.items.map((field) =>
                 <FieldRow ID={field.ID} Title={field.Title} Required={field.Required} TypeAsString={field.TypeAsString} />
             )
