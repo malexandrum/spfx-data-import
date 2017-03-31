@@ -4,7 +4,8 @@ import {
   BaseListViewCommandSet,
   IBaseListViewCommandSetProperties,
   IListViewCommandSetRenderEventParameters,
-  IListViewCommandSetExecuteEventParameters
+  IListViewCommandSetExecuteEventParameters,
+  
 } from '@ms/sp-listview-extensibility';
 import { Dialog, DialogType, DialogFooter } from 'office-ui-fabric-react/lib/Dialog';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
@@ -14,8 +15,8 @@ import * as ReactDOM from 'react-dom';
 
 import * as strings from 'spFxDataImportStrings';
 
-import { ImportDialog } from '../../components/ImportDialog';
 import * as ParseData from '../../modules/ParseData'; 
+import { ImportDialog, IImportDialogProps } from '../../components/ImportDialog';
 
 /**
  * If your command set uses the ClientSideComponentProperties JSON input,
@@ -30,7 +31,6 @@ export interface ISpFxDataImportCommandSetProperties extends IBaseListViewComman
 const LOG_SOURCE: string = 'SpFxDataImportCommandSet';
 
 export default class SpFxDataImportCommandSet extends BaseListViewCommandSet {
-  state: any = { importOpen: false }
   @override
   public onInit(): Promise<void> {
     Log.info(LOG_SOURCE, 'Initialized SpFxDataImportCommandSet');
@@ -51,11 +51,7 @@ export default class SpFxDataImportCommandSet extends BaseListViewCommandSet {
       }
     }
 
-    /** Render Import Dialog */
-    let placeHolder: Element = document.querySelector(".os-Files-extensionPlaceHolder");
-    // console.log('placeholder', placeHolder);
-    let element: React.ReactElement<any> = React.createElement(ImportDialog, { isOpened: this.state.importOpen });
-    ReactDOM.render(element, placeHolder);
+
 
     /* Inject our React Fabric Dialog */
     // console.log('ReactDOM version', ReactDOM.version);
@@ -71,8 +67,17 @@ export default class SpFxDataImportCommandSet extends BaseListViewCommandSet {
     switch (event.commandId) {
       case 'COMMAND_IMPORT':
         // alert(`Clicked ${strings.CommandImport}`);
-        ParseData.loadData(this.context.pageContext.list.id); 
-        this.state.importOpen = true;
+        
+       
+        let id = this.context.pageContext.list.id.toString(); 
+        /** Render Import Dialog */
+        let placeHolder: Element = document.querySelector(".os-Files-extensionPlaceHolder");
+        console.log('placeholder', placeHolder);
+        let element: React.ReactElement<IImportDialogProps> = React.createElement(ImportDialog, { isOpened: true, listid: id, context: this.context }, null);
+        console.log('element: ', element);
+        ReactDOM.render(element, placeHolder);
+        console.log('React rendered');
+
         break;
       case 'COMMAND_2':
         alert(`Clicked ${strings.Command2}`);
